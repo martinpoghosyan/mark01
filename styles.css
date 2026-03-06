@@ -429,16 +429,202 @@ body {
 .footer-copy    { font-size: .78rem; color: rgba(136,136,168,.35); }
 
 /* =============================================
+   HAMBURGER BUTTON (hidden on desktop)
+   ============================================= */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 40px;
+  height: 40px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  z-index: 110;
+  -webkit-tap-highlight-color: transparent;
+}
+.hamburger-line {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--clr-text);
+  border-radius: 2px;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+.hamburger.active .hamburger-line:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.hamburger.active .hamburger-line:nth-child(2) {
+  opacity: 0;
+}
+.hamburger.active .hamburger-line:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* =============================================
    RESPONSIVE
    ============================================= */
-@media (max-width:768px) {
-  .navbar { padding:16px 20px; }
-  .nav-links { display:none; }
-  .menu-grid { grid-template-columns:1fr; }
-  .shots-grid { grid-template-columns:repeat(2,1fr); }
-  .menu-section { padding:72px 0; }
-  .card-img-wrap { height:180px; }
+
+/* -- Tablet & small laptops -- */
+@media (max-width: 900px) {
+  .navbar { padding: 16px 24px; }
+  .nav-links { gap: 20px; }
+  .nav-links a { font-size: .78rem; }
+  .menu-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  .menu-grid--narrow { grid-template-columns: repeat(2, 1fr); }
+  .shots-grid { grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .menu-section { padding: 72px 0; }
+  .section-header { margin-bottom: 48px; }
 }
-@media (max-width:480px) {
-  .shots-grid { grid-template-columns:1fr; }
+
+/* -- Mobile -- */
+@media (max-width: 768px) {
+  /* Hamburger visible */
+  .hamburger { display: flex; order: 3; }
+
+  /* Navbar layout */
+  .navbar {
+    padding: 14px 18px;
+    flex-wrap: wrap;
+  }
+  .nav-logo { font-size: 1.1rem; }
+
+  /* Language switcher inline with logo & hamburger */
+  .lang-switcher { order: 2; margin-left: auto; margin-right: 12px; }
+  .lang-btn { font-size: 0.68rem; padding: 4px 10px; }
+
+  /* Nav links -- slide-down mobile menu */
+  .nav-links {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    width: 100%;
+    order: 4;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.4s cubic-bezier(0.25, 0.8, 0.25, 1),
+                opacity 0.3s ease,
+                padding 0.3s ease;
+    background: rgba(13,13,18,0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 0 0 var(--radius-md) var(--radius-md);
+    padding: 0;
+    margin-top: 0;
+  }
+  .nav-links.nav-open {
+    max-height: 320px;
+    opacity: 1;
+    padding: 12px 0 16px;
+    margin-top: 10px;
+    border-top: 1px solid var(--clr-border);
+  }
+  .nav-links li { width: 100%; text-align: center; }
+  .nav-links a {
+    display: block;
+    padding: 14px 20px;
+    font-size: 0.95rem;
+    color: var(--clr-text-muted);
+    transition: background 0.2s, color 0.2s;
+    border-radius: var(--radius-sm);
+  }
+  .nav-links a:hover,
+  .nav-links a:active {
+    background: rgba(201,168,76,0.08);
+    color: var(--clr-gold);
+  }
+
+  /* Hero section */
+  .hero { min-height: 90vh; }
+  .hero-content { padding: 0 20px; }
+  .hero-title { font-size: clamp(2.2rem, 10vw, 3.5rem); margin-bottom: 16px; }
+  .hero-subtitle { font-size: 0.95rem; margin-bottom: 30px; }
+  .hero-cta { padding: 14px 32px; font-size: 0.88rem; }
+  .hero-tag { font-size: 0.72rem; margin-bottom: 14px; }
+
+  /* Sections */
+  .menu-section { padding: 56px 0; }
+  .container { padding: 0 16px; }
+  .section-header { margin-bottom: 36px; }
+  .section-title { font-size: clamp(1.6rem, 6vw, 2.2rem); margin-bottom: 8px; }
+  .section-tag { font-size: 0.66rem; padding: 5px 14px; margin-bottom: 12px; }
+  .section-desc { font-size: 0.9rem; }
+
+  /* Menu cards -- single column on narrow, two on wider phones */
+  .menu-grid { grid-template-columns: 1fr; gap: 18px; }
+  .menu-grid--narrow { grid-template-columns: 1fr; }
+  .card-img-wrap { height: 200px; }
+  .card-body { padding: 16px 18px 18px; }
+  .drink-name { font-size: 1.1rem; }
+  .drink-desc { font-size: 0.82rem; margin-bottom: 10px; }
+
+  /* Tags -- larger touch targets */
+  .tag { font-size: 0.65rem; padding: 5px 11px; }
+  .drink-tags { gap: 6px; }
+
+  /* Price badge */
+  .card-price-badge { font-size: 0.92rem; padding: 5px 12px; top: 12px; right: 12px; }
+  .featured-ribbon { font-size: 0.6rem; padding: 4px 10px; top: 12px; left: 12px; }
+
+  /* Shots grid */
+  .shots-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  .shot-img-wrap { height: 130px; }
+  .shot-inner { padding: 12px 14px 14px; }
+  .shot-inner .drink-name { font-size: 0.92rem; }
+  .shot-inner .drink-desc { font-size: 0.75rem; }
+  .shot-inner .drink-price { font-size: 1rem; }
+
+  /* Footer */
+  .footer { padding: 44px 18px 36px; }
+  .footer-logo { font-size: 1.5rem; }
+  .footer-tagline { font-size: 0.88rem; margin-bottom: 20px; }
+  .footer-note { font-size: 0.72rem; }
+  .footer-copy { font-size: 0.72rem; }
+
+  /* Disable hover effects (touch devices) */
+  .menu-card:hover { transform: none; box-shadow: none; border-color: var(--clr-border); }
+  .shot-card:hover { transform: none; box-shadow: none; border-color: var(--clr-border); }
+  .menu-card:hover .card-img { transform: none; }
+  .shot-card:hover .shot-img { transform: none; }
+
+  /* Scroll indicator */
+  .scroll-indicator { bottom: 24px; }
+  .scroll-indicator span { height: 40px; }
+
+  /* Hero backdrop rings -- smaller on mobile */
+  .hero-backdrop::before { width: 350px; height: 350px; }
+  .hero-backdrop::after { width: 500px; height: 500px; }
+}
+
+/* -- Wider phones (two-column cards) -- */
+@media (min-width: 420px) and (max-width: 768px) {
+  .menu-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  .menu-grid--narrow { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  .card-img-wrap { height: 160px; }
+  .card-body { padding: 12px 14px 14px; }
+  .drink-name { font-size: 0.98rem; }
+  .drink-desc { font-size: 0.78rem; line-height: 1.45; }
+  .tag { font-size: 0.6rem; padding: 3px 8px; }
+}
+
+/* -- Very narrow phones -- */
+@media (max-width: 419px) {
+  .navbar { padding: 12px 14px; }
+  .nav-logo { font-size: 1rem; }
+  .lang-btn { font-size: 0.62rem; padding: 3px 8px; }
+  .hero-title { font-size: clamp(1.8rem, 10vw, 2.8rem); }
+  .hero-subtitle { font-size: 0.85rem; }
+  .hero-cta { padding: 12px 28px; font-size: 0.82rem; }
+  .container { padding: 0 12px; }
+  .menu-section { padding: 44px 0; }
+  .section-title { font-size: clamp(1.4rem, 6vw, 1.8rem); }
+  .shots-grid { grid-template-columns: 1fr; }
+  .card-img-wrap { height: 190px; }
+  .card-body { padding: 14px 16px 16px; }
+  .drink-name { font-size: 1.05rem; }
 }
